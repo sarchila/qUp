@@ -7,7 +7,12 @@
   <div class="container">
     <div class="header"><h1>Q-Up</h1></div>
     <div ng-controller='queueController'>
-      <h1>{{name}}</h1>
+      <h1 ng-show="username">{{message}}</h1>
+      <button ng-show="username" ng-click="removeFromQueue()">De-Q</button>
+      <input type="text" ng-model="name" placeholder="Username" ng-keydown="addToQueue($event)" ng-hide="username">
+      <ol>
+        <li ng-repeat="person in queue">{{person.name}}</li>
+      </ol>
     </div>
   </div>
   <script src="lib/angular.min.js"></script>

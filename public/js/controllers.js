@@ -9,7 +9,7 @@ angular.module('qUpApp')
         if ($scope.queue[inQueue[i]].name === $scope.username){
           $scope.myRef = ref.child(inQueue[i]);
           $scope.message = "You were already in the Q, " + $scope.username + "!";
-          $scope.name = "";
+          $scope.completeQueueProcess();
           return true;
         }
       }
@@ -22,14 +22,29 @@ angular.module('qUpApp')
         if (!$scope.alreadyQueued()){
           $scope.myRef = $scope.queue.$add({name: $scope.name});
           $scope.message = "You're Q'ed Up, " + $scope.username + "!";
-          $scope.name = "";
+          $scope.completeQueueProcess();
         }
       }
     };
 
+    $scope.completeQueueProcess = function (){
+      $scope.name = "";
+      ref.on('value', function() {
+        $scope.checkIfFirst();
+      });
+    };
 
     $scope.removeFromQueue = function (){
+      ref.off('value');
       $scope.myRef.remove();
       delete $scope.username;
     };
+
+    $scope.checkIfFirst = function (){
+      var inQueue = $scope.queue.$getIndex();
+      if ($scope.queue[inQueue[0]].name === $scope.username){
+        $scope.message = "You're first in line!  Please De-Q when you're done!";
+      }
+    };
+
   });

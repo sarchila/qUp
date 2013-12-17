@@ -5,17 +5,28 @@
 </head>
 <body>
   <div class="container">
-    <div class="auth"></div>
     <div class="header"><h1>Q-Up</h1></div>
-    <div ng-view>
+    <div class="auth" ng-controller="authController">
+      <input type="email" ng-model="email" placeholder="Email" ng-hide="user" autocomplete="on" required />
+      <input type="password" ng-model="password" placeholder="Password" ng-hide="user" />
+      <button ng-hide="user" ng-click="logThemIn()">Login</button>
+      <br ng-hide="user">
+      <span ng-hide="user">New here? <button type="submit" id="submit" ng-click="newUser()">Register</button></span>
+      <span class="logout" ng-show="user">
+        {{user.email}} | <button ng-click="logThemOut()">Logout</button>
+      </span>
+    </div>
+    <div ng-view class="queues">
     </div>
   </div>
   <script src="lib/angular.min.js"></script>
   <script src="lib/angular-route.min.js"></script>
+  <script src="lib/angular-cookies.min.js"></script>
   <script src="https://cdn.firebase.com/v0/firebase.js"></script>
   <script src="https://cdn.firebase.com/libs/angularfire/0.5.0/angularfire.js"></script>
   <script src='https://cdn.firebase.com/v0/firebase-simple-login.js'></script>
   <script src="js/main.js"></script>
   <script src="js/controllers.js"></script>
+  <script src="js/factories.js"></script>
 </body>
 </html>

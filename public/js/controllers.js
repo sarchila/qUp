@@ -1,5 +1,5 @@
 angular.module('qUpApp')
-  .controller('queueController', function ($scope, $firebase, $q, $location){
+  .controller('queueController', function ($rootScope, $scope, $firebase, $location, $cookieStore, Session){
     $scope.queueName = $location.path().slice(1);
     var ref = new Firebase('https://santiago.firebaseio.com/queues/' + $scope.queueName);
     $scope.queue = $firebase(ref);
@@ -17,18 +17,15 @@ angular.module('qUpApp')
       return false;
     };
 
-    $scope.addToQueue = function(key) {
-      if (key.keyCode === 13) {
-        if (!$scope.name){
-          key.preventDefault();
-        } else {
-          $scope.username = $scope.name;
-          if (!$scope.alreadyQueued()){
-            $scope.myRef = $scope.queue.$add({name: $scope.name});
-            $scope.message = "You're Q'ed Up, " + $scope.username + "!";
-            $scope.completeQueueProcess();
-          }
-        }
+    $scope.addToQueue = function() {
+      console.log("$scope =====> ", $scope);
+      console.log("$rootScope =====> ", $rootScope);
+      console.log("currentUser =====> ", Session.currentUser);
+      $scope.username = Session.currentUser.email;
+      if (!$scope.alreadyQueued()){
+        $scope.myRef = $scope.queue.$add({name: $scope.username});
+        $scope.message = "You're Q'ed Up, " + $scope.username + "!";
+        $scope.completeQueueProcess();
       }
     };
 
@@ -48,12 +45,12 @@ angular.module('qUpApp')
     $scope.checkIfFirst = function (){
       var inQueue = $scope.queue.$getIndex();
       if (inQueue.length === 1 || ($scope.queue[inQueue[0]]).name === $scope.username){
-        $scope.message = "You're first in line, " + $scope.username + "!  Please De-Q when you're done!";
+        $scope.message = "You're first in line, " + $scope.username + ".  Please De-Q when you're done";
       }
     };
   })
 
-  .controller("authController", function($rootScope, $scope) {
+  .controller("authController", function($rootScope, $scope, Session) {
     var ref = new Firebase('https://santiago.firebaseio.com');
     var auth = new FirebaseSimpleLogin(ref, function(error, user) {
       $scope.$apply(function(){
@@ -62,12 +59,10 @@ angular.module('qUpApp')
           console.log(error);
         } else if (user) {
           // user authenticated with Firebase
-          // console.log("BEFORE =======>", $scope.user);
           $scope.user = user;
-          // console.log("AFTER =======>", $scope.user);
-          // console.log('User ID: ' + user.id + ', Provider: ' + user.provider);
+          Session.setAuthenticated(user);
         } else {
-          // console.log("user is logged out");
+          console.log("user is logged out");
         }
       });
     });
@@ -77,7 +72,7 @@ angular.module('qUpApp')
         $scope.$apply(function (){
           if (!error) {
             $scope.user = user;
-            // console.log('User Id: ' + user.id + ', Email: ' + user.email);
+            console.log('User Id: ' + user.id + ', Email: ' + user.email);
           } else {
              console.error(error);
           }
@@ -93,25 +88,13 @@ angular.module('qUpApp')
     };
 
     $scope.logThemOut = function (){
-      delete window.localStorage['firebaseSession'];
       auth.logout();
       delete $scope['user'];
       $scope.password = "";
+      Session.endSession();
     };
+  })
+  
+  .controller('homeController', function ($scope){
+    $scope.name = "test";
   });
-
-
-    // var ref = new Firebase('https://santiago.firebaseio.com/');
-    // $scope.auth = new FirebaseSimpleLogin(ref, function(error, user) {
-    //   if (error) {
-    //     // an error occurred while attempting login
-    //     console.log(error);
-    //   } else if (user) {
-    //     // user authenticated with Firebase
-    //     $scope.user = user;
-    //     console.log('User ID: ' + user.id + ', User Name: ' + user.name + ', Provider: ' + user.provider);
-    //   } else {
-    //     console.log('user is logged out');
-    //     delete $scope.auth['user'];
-    //   }
-    // });

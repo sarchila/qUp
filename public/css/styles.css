@@ -1,10 +1,14 @@
-.container{
+.container {
   margin: auto;
   width: 600px;
 }
 
-.header{
+.header {
   padding-left: 10px;
   background-color: #00B060;
   color: white;
+}
+
+.auth {
+  text-align: right;
 }

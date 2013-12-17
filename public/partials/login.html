@@ -1,3 +1,10 @@
-<h1 ng-show="username">{{message}}</h1>
-<button ng-show="username" ng-click="removeFromQueue()">De-Q</button>
-<input type="text" ng-model="name" placeholder="Username" ng-keydown="addToQueue($event)" ng-hide="username">
+<form ng-submit="newUser()">
+  <input type="email" ng-model="email" placeholder="Email" ng-hide="user" autocomplete="on" required />
+  <input type="password" ng-model="password" placeholder="Password" ng-hide="user" />
+  <input type="submit" id="submit" value="Submit" />
+</form>
+
+<a href="#" ng-hide="user" ng-click="logThemIn()">Login</a>
+<span ng-show="user">
+  {{user.email}} | <a href="#" ng-click="logThemOut()">Logout</a>
+</span>

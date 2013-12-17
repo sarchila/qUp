@@ -48,11 +48,66 @@ angular.module('qUpApp')
     $scope.checkIfFirst = function (){
       var inQueue = $scope.queue.$getIndex();
       if (inQueue.length === 1 || ($scope.queue[inQueue[0]]).name === $scope.username){
-        $scope.message = "You're first in line!  Please De-Q when you're done!";
+        $scope.message = "You're first in line, " + $scope.username + "!  Please De-Q when you're done!";
       }
     };
-
   })
 
-  .controller('loginController', function ($scope){
+  .controller("authController", function($rootScope, $scope) {
+    var ref = new Firebase('https://santiago.firebaseio.com');
+    var auth = new FirebaseSimpleLogin(ref, function(error, user) {
+      if (error) {
+        // an error occurred while attempting login
+        console.log(error);
+      } else if (user) {
+        // user authenticated with Firebase
+        $scope.user = user;
+        console.log(user);
+        console.log('User ID: ' + user.id + ', Provider: ' + user.provider);
+      } else {
+        console.log("user is logged out");
+      }
+    });
+
+    $scope.newUser = function (){
+      auth.createUser($scope.email, $scope.password, function(error, user) {
+        if (!error) {
+          console.log('User Id: ' + user.id + ', Email: ' + user.email);
+        } else {
+          console.error(error);
+        }
+      });
+    };
+
+    $scope.logThemIn = function (){
+      auth.login('password', {
+        email: $scope.email,
+        password: $scope.password
+      });
+    };
+
+    $scope.logThemOut = function (){
+      delete window.localStorage['firebaseSession'];
+      auth.logout();
+      delete $scope['user'];
+    };
   });
+
+
+
+
+
+    // var ref = new Firebase('https://santiago.firebaseio.com/');
+    // $scope.auth = new FirebaseSimpleLogin(ref, function(error, user) {
+    //   if (error) {
+    //     // an error occurred while attempting login
+    //     console.log(error);
+    //   } else if (user) {
+    //     // user authenticated with Firebase
+    //     $scope.user = user;
+    //     console.log('User ID: ' + user.id + ', User Name: ' + user.name + ', Provider: ' + user.provider);
+    //   } else {
+    //     console.log('user is logged out');
+    //     delete $scope.auth['user'];
+    //   }
+    // });

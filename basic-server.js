@@ -9,7 +9,11 @@ var server = http.createServer(function(req, res){
   console.log("Serving request type " + req.method + " for url " + req.url);
   if (req.url === '/'){
     fs.readFile(__dirname + '/public/index.html', function (err, fileContents){
-      if (err) console.error(err);
+      if (err) {
+        console.error(err);
+        res.writeHead(404, {});
+        res.end();
+      }
       else{
         res.writeHead(200, {});
         res.end(fileContents);

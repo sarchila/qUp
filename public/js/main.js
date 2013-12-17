@@ -1,12 +1,12 @@
 angular.module('qUpApp', ['ngRoute','firebase'])
   .config(function ($routeProvider){
     $routeProvider.when('/', {
-      templateUrl: 'partials/queue.html',
-      controller: 'queueController'
+      templateUrl: 'partials/login.html',
+      controller: 'loginController'
     });
 
     $routeProvider.otherwise({
-      templateUrl: 'partials/whoops.html',
-      controller: 'whoopsController'
+      templateUrl: 'partials/queue.html',
+      controller: 'queueController'
     });
   });

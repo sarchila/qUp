@@ -1,6 +1,7 @@
 angular.module('qUpApp')
-  .controller('queueController', function ($scope, $firebase, $q){
-    var ref = new Firebase('https://santiago.firebaseio.com/');
+  .controller('queueController', function ($scope, $firebase, $q, $location){
+    $scope.queueName = $location.path().slice(1);
+    var ref = new Firebase('https://santiago.firebaseio.com/queues/' + $scope.queueName);
     $scope.test = "it worked!";
     $scope.queue = $firebase(ref);
 
@@ -19,11 +20,15 @@ angular.module('qUpApp')
 
     $scope.addToQueue = function(key) {
       if (key.keyCode === 13) {
-        $scope.username = $scope.name;
-        if (!$scope.alreadyQueued()){
-          $scope.myRef = $scope.queue.$add({name: $scope.name});
-          $scope.message = "You're Q'ed Up, " + $scope.username + "!";
-          $scope.completeQueueProcess();
+        if (!$scope.name){
+          key.preventDefault();
+        } else {
+          $scope.username = $scope.name;
+          if (!$scope.alreadyQueued()){
+            $scope.myRef = $scope.queue.$add({name: $scope.name});
+            $scope.message = "You're Q'ed Up, " + $scope.username + "!";
+            $scope.completeQueueProcess();
+          }
         }
       }
     };
@@ -43,13 +48,14 @@ angular.module('qUpApp')
 
     $scope.checkIfFirst = function (){
       var inQueue = $scope.queue.$getIndex();
-      if ($scope.queue[inQueue[0]].name === $scope.username){
+      console.log('checking if first', inQueue);
+      if (($scope.queue[inQueue[0]]).name === $scope.username){
         $scope.message = "You're first in line!  Please De-Q when you're done!";
       }
     };
 
   })
 
-  .controller('whoopsController', function ($scope){
-    $scope.test = "it didn't work!";
+  .controller('loginController', function ($scope){
+    $scope.test = "it worked!";
   });

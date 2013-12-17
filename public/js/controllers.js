@@ -8,7 +8,7 @@ angular.module('qUpApp')
       for (var i = 0 ; i < inQueue.length ; i++){
         if ($scope.queue[inQueue[i]].name === $scope.username){
           $scope.myRef = ref.child(inQueue[i]);
-          $scope.message = "You were already in the Q, " + $scope.username + "!";
+          $scope.message = "You are already in the Q, " + $scope.username + "!";
           $scope.completeQueueProcess();
           return true;
         }

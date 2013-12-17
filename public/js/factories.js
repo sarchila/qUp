@@ -8,6 +8,7 @@ angular.module('qUpApp')
       setAuthenticated: function (user) {
         $cookieStore.put('user', user);
         service.currentUser = user;
+        $location.path('/');
       },
       endSession: function (){
         $cookieStore.remove('user');

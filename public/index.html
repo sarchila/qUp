@@ -7,11 +7,12 @@
   <div class="container">
     <div class="header"><h1>Q-Up</h1></div>
     <div class="auth" ng-controller="authController">
-      <input type="email" ng-model="email" placeholder="Email" ng-hide="user" autocomplete="on" required />
-      <input type="password" ng-model="password" placeholder="Password" ng-hide="user" />
-      <button ng-hide="user" ng-click="logThemIn()">Login</button>
+      <input type="email" ng-model="email" placeholder="Email" ng-show="!user" autocomplete="on" required />
+      <br ng-show="new">
+      <input type="password" ng-model="password" placeholder="Password" ng-show="!user" />
+      <button ng-show="!user && !new" ng-click="logThemIn()">Already have an account? Login</button>
       <br ng-hide="user">
-      <span ng-hide="user">New here? <button type="submit" id="submit" ng-click="newUser()">Register</button></span>
+      <span ng-hide="user"><button ng-click="newUser()">New here? Register</button></span>
       <span class="logout" ng-show="user">
         {{user.email}} | <button ng-click="logThemOut()">Logout</button>
       </span>

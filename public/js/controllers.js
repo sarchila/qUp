@@ -63,24 +63,33 @@ angular.module('qUpApp')
           Session.setAuthenticated(user);
         } else {
           console.log("user is logged out");
+          Session.endSession();
         }
       });
     });
 
     $scope.newUser = function (){
-      auth.createUser($scope.email, $scope.password, function(error, user) {
-        $scope.$apply(function (){
-          if (!error) {
-            $scope.user = user;
-            console.log('User Id: ' + user.id + ', Email: ' + user.email);
-          } else {
-             console.error(error);
-          }
+      if ($scope.new){
+        auth.createUser($scope.email, $scope.password, function(error, user) {
+          $scope.$apply(function (){
+            if (!error) {
+              $scope.user = user;
+              Session.setAuthenticated(user);
+              Session.currentUser.first_name = $scope.first_name;
+              console.log('User'+ JSON.stringify(user) +', User Id: ' + user.id + ', Email: ' + user.email);
+              $scope.new = null;
+              return;
+            } else {
+               console.error(error);
+            }
+          });
         });
-      });
+      }
+      $scope.new = true;
     };
 
     $scope.logThemIn = function (){
+
       auth.login('password', {
         email: $scope.email,
         password: $scope.password

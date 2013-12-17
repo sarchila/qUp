@@ -17,18 +17,21 @@ body {
 .auth {
   position: relative;
   width: 600px;
-  height: 30px;
+  height: auto;
   margin-top: -15px;
+  right:0;
+  top: 0;
 }
 
 .logout {
   position: absolute;
   right: 0;
   font-size: 12px;
+  height: auto;
 }
 
 .queues {
-  margin-top: 20px;
+  padding-top: 20px;
 }
 
 input {

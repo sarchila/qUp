@@ -1,6 +1,7 @@
 angular.module('qUpApp')
   .controller('queueController', function ($scope, $firebase, $q){
     var ref = new Firebase('https://santiago.firebaseio.com/');
+    $scope.test = "it worked!";
     $scope.queue = $firebase(ref);
 
     $scope.alreadyQueued = function (){
@@ -47,4 +48,8 @@ angular.module('qUpApp')
       }
     };
 
+  })
+
+  .controller('whoopsController', function ($scope){
+    $scope.test = "it didn't work!";
   });

@@ -56,26 +56,32 @@ angular.module('qUpApp')
   .controller("authController", function($rootScope, $scope) {
     var ref = new Firebase('https://santiago.firebaseio.com');
     var auth = new FirebaseSimpleLogin(ref, function(error, user) {
-      if (error) {
-        // an error occurred while attempting login
-        console.log(error);
-      } else if (user) {
-        // user authenticated with Firebase
-        $scope.user = user;
-        console.log(user);
-        console.log('User ID: ' + user.id + ', Provider: ' + user.provider);
-      } else {
-        console.log("user is logged out");
-      }
+      $scope.$apply(function(){
+        if (error) {
+          // an error occurred while attempting login
+          console.log(error);
+        } else if (user) {
+          // user authenticated with Firebase
+          // console.log("BEFORE =======>", $scope.user);
+          $scope.user = user;
+          // console.log("AFTER =======>", $scope.user);
+          // console.log('User ID: ' + user.id + ', Provider: ' + user.provider);
+        } else {
+          // console.log("user is logged out");
+        }
+      });
     });
 
     $scope.newUser = function (){
       auth.createUser($scope.email, $scope.password, function(error, user) {
-        if (!error) {
-          console.log('User Id: ' + user.id + ', Email: ' + user.email);
-        } else {
-          console.error(error);
-        }
+        $scope.$apply(function (){
+          if (!error) {
+            $scope.user = user;
+            // console.log('User Id: ' + user.id + ', Email: ' + user.email);
+          } else {
+             console.error(error);
+          }
+        });
       });
     };
 
@@ -90,11 +96,9 @@ angular.module('qUpApp')
       delete window.localStorage['firebaseSession'];
       auth.logout();
       delete $scope['user'];
+      $scope.password = "";
     };
   });
-
-
-
 
 
     // var ref = new Firebase('https://santiago.firebaseio.com/');

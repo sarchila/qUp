@@ -1,10 +1,9 @@
-<form ng-submit="newUser()">
-  <input type="email" ng-model="email" placeholder="Email" ng-hide="user" autocomplete="on" required />
-  <input type="password" ng-model="password" placeholder="Password" ng-hide="user" />
-  <input type="submit" id="submit" value="Submit" />
-</form>
 
-<a href="#" ng-hide="user" ng-click="logThemIn()">Login</a>
-<span ng-show="user">
-  {{user.email}} | <a href="#" ng-click="logThemOut()">Logout</a>
+<input type="email" ng-model="email" placeholder="Email" ng-hide="user" autocomplete="on" required />
+<input type="password" ng-model="password" placeholder="Password" ng-hide="user" />
+<button ng-hide="user" ng-click="logThemIn()">Login</button>
+<br ng-hide="user">
+<span ng-hide="user">New to Q-Up? <button type="submit" id="submit" ng-click="newUser()">Register</button></span>
+<span class="auth" ng-show="user">
+  {{user.email}} | <button ng-click="logThemOut()">Logout</button>
 </span>

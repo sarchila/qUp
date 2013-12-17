@@ -10,5 +10,9 @@
 }
 
 .auth {
-  text-align: right;
+  float: right;
+}
+
+input {
+  width: 160px;
 }

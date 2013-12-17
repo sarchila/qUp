@@ -2,7 +2,6 @@ angular.module('qUpApp')
   .controller('queueController', function ($scope, $firebase, $q, $location){
     $scope.queueName = $location.path().slice(1);
     var ref = new Firebase('https://santiago.firebaseio.com/queues/' + $scope.queueName);
-    $scope.test = "it worked!";
     $scope.queue = $firebase(ref);
 
     $scope.alreadyQueued = function (){
@@ -48,8 +47,7 @@ angular.module('qUpApp')
 
     $scope.checkIfFirst = function (){
       var inQueue = $scope.queue.$getIndex();
-      console.log('checking if first', inQueue);
-      if (($scope.queue[inQueue[0]]).name === $scope.username){
+      if (inQueue.length === 1 || ($scope.queue[inQueue[0]]).name === $scope.username){
         $scope.message = "You're first in line!  Please De-Q when you're done!";
       }
     };
@@ -57,5 +55,4 @@ angular.module('qUpApp')
   })
 
   .controller('loginController', function ($scope){
-    $scope.test = "it worked!";
   });

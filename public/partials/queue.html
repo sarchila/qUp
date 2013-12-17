@@ -3,5 +3,5 @@
 <button ng-show="username" ng-click="removeFromQueue()">De-Q</button>
 <input type="text" ng-model="name" placeholder="Username" ng-keydown="addToQueue($event)" ng-hide="username">
 <ol>
-  <li ng-repeat="person in queue">{{person.name}}</li>
+  <li ng-repeat="person in queue | orderByPriority">{{person.name}}</li>
 </ol>

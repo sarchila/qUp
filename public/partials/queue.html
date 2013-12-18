@@ -1,7 +1,7 @@
 <h1> Welcome to the {{queueName}} Q</h1>
 <h1 ng-show="username">{{message}}</h1>
 <button ng-show="username" ng-click="removeFromQueue()">De-Q</button>
-<button ng-hide="username" ng-click="addToQueue()">Get In The Q!</button>
+<button ng-hide="username" ng-click="addToQueue()">Q Up!</button>
 <ol>
   <li ng-repeat="person in queue | orderByPriority">{{person.name}}</li>
 </ol>

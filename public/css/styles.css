@@ -1,22 +1,33 @@
 body {
-  font-family: "Helvetica Neue"
+  font-family: "Helvetica Neue";
+  background-image: url('../img/grey_wash_wall.png');
 }
 
 .container {
   margin: auto;
-  width: 600px;
+  padding-left: 10px;
+  padding-right: 10px;
+  max-width: 500px;
+  min-height: 500px;
+  background-color: rgba(255,255,255,0.2);
+  border-radius: 5px;
+  box-shadow: 0px 0px 30px 0px;
 }
 
 .header {
   padding-left: 10px;
-  background-color: #00B060;
+  margin-right: -10px;
+  margin-left: -10px;
+  background-color: #3D7072;
   color: white;
   font-style: italic;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
 }
 
 .auth {
   position: relative;
-  width: 600px;
+  max-width: 500px;
   height: auto;
   margin-top: -15px;
   right:0;
@@ -35,5 +46,5 @@ body {
 }
 
 input {
-  width: 160px;
+  max-width: 160px;
 }

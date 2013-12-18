@@ -40,12 +40,17 @@ angular.module('qUpApp')
       ref.off('value');
       $scope.myRef.remove();
       delete $scope.username;
+      document.title = "Q-Up";
+      clearInterval($scope.intervalId);
     };
 
     $scope.checkIfFirst = function (){
       var inQueue = $scope.queue.$getIndex();
       if (inQueue.length === 1 || ($scope.queue[inQueue[0]]).name === $scope.username){
         $scope.message = "You're first in line, " + $scope.username + ".  Please De-Q when you're done";
+        $scope.intervalId = setInterval(function(){
+          document.title = (document.title === "Q-Up") ? "***You're 1st***" : "Q-Up";
+        }, 1000);
       }
     };
   })

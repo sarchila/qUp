@@ -1,6 +1,11 @@
 body {
-  font-family: "Helvetica Neue";
+  font-family: 'HelveticaNeue-UltraLight', 'Helvetica Neue UltraLight', 'Helvetica Neue'; font-weight: 500;
   background-image: url('../img/grey_wash_wall.png');
+  font-size: 20px;
+}
+
+.header h1 {
+  font-style: italic;
 }
 
 .container {
@@ -20,7 +25,6 @@ body {
   margin-left: -10px;
   background-color: #3D7072;
   color: white;
-  font-style: italic;
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
 }
@@ -37,7 +41,7 @@ body {
 .logout {
   position: absolute;
   right: 0;
-  font-size: 12px;
+  font-size: 16px;
   height: auto;
 }
 
